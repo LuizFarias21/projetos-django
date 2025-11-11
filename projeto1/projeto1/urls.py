@@ -3,5 +3,6 @@ from django.urls import path, include
 
 urlpatterns = [
    path('admin/', admin.site.urls),
-   path('comentario/', include('comentarios.urls')),  # Inclui as URLs do app 'comentarios' na raiz do projeto
+   #path('comentario/', include('comentarios.urls')),  # Inclui as URLs do app 'comentarios' na raiz do projeto
+   path('', include('comentarios.urls')),
 ]

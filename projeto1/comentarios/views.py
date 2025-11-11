@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect  # atalhos para renderizar templates e redirecionar
 from .models import Comentario                 # modelo Comentario usado para persistência
+from rest_framework import viewsets             # viewsets do DRF
+from .serializers import ComentarioSerializer   # serializer do Comentario
 
 # View para salvar um comentário e mostrar o formulário/lista de comentários
 def salvar_comentario(request):
@@ -13,6 +15,11 @@ def salvar_comentario(request):
        return redirect('salvar_comentario')
 
    # Se não for POST (normalmente GET), recupera todos os comentários ordenados do mais recente ao mais antigo
-   comentarios = Comentario.objects.all().order_by('-data_criacao')
+   comentarios = Comentario.objects.all().order_by('id')
    # Renderiza o template passando os comentários no contexto
    return render(request, 'comentarios/formulario.html', {'comentarios': comentarios})
+
+class ComentarioViewSet(viewsets.ModelViewSet):
+   queryset = Comentario.objects.all().order_by('id')  # queryset base
+   serializer_class = ComentarioSerializer                        # serializer usado
+   http_method_names = ['get']  # métodos HTTP permitidos
